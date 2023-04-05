@@ -1,5 +1,11 @@
 import { Schema, model, NumberExpression } from "mongoose";
 
+interface IAwards {
+  wins: Number;
+  nominations: Number;
+  text: String;
+}
+
 interface IMovie {
   plot: String;
   genres: [String];
@@ -14,11 +20,7 @@ interface IMovie {
   released: Date;
   directors: [String];
   writers: [String];
-  awards: {
-    wins: Number;
-    nominations: Number;
-    text: String;
-  };
+  awards: IAwards;
   lastupdated: String;
   imdb: {
     rating: Number;
