@@ -86,7 +86,7 @@ export default function Home({ movies }: IMOVIE) {
               <div key={idx} className="w-100 m-3 ">
                 <div className="max-w-sm rounded-3xl overflow-hidden shadow-2xl shadow-red-600/50 h-full flex flex-col justify-between pb-5">
                   <Image
-                    src="/images/poster.jpeg"
+                    src={movie.poster || "/images/poster.jpeg"}
                     alt="asd"
                     width={600}
                     height={800}
@@ -100,7 +100,7 @@ export default function Home({ movies }: IMOVIE) {
                   </div>
                   <div className="px-6 pt-4">
                     <span className="inline-block bg-red-900 rounded-full px-3 py-1 font-semibold text-white text-lg mr-2 bottom-0">
-                      🍅 {movie.tomatoes.viewer.meter || "..."}%
+                      🍅: {movie.tomatoes.viewer.meter || "..."}%
                     </span>
                     <span className="inline-block bg-yellow-400 rounded-full px-3 py-1 font-semibold text-black text-lg mr-2 mb-2">
                       IMDb: {movie.imdb.rating}
