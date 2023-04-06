@@ -10,13 +10,6 @@ const nextConfig = {
       },
     ],
   },
-  theme: {
-    extend: {
-      fontFamily: {
-        merriweather: ["Merriweather"],
-      },
-    },
-  },
 };
 
 module.exports = nextConfig;
