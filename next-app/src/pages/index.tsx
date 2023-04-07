@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 // import Movie from "@/components/Movie";
 import About from "./about";
 import Pagination from "@/components/Pagination/Pagination";
+import { useRouter } from "next/router";
 
 // import Movie from "@/components/Movie";
 
@@ -54,18 +55,64 @@ interface IMovie {
   };
 }
 
-interface IPagination {
-  total: Number;
-  pageCount: Number;
-  page: [Number];
-}
-
 interface IMOVIE {
   movies: IMovie[];
-  pagination: IPagination;
+  pagination: any;
 }
 
 export default function Home({ movies, pagination }: IMOVIE) {
+  const router = useRouter();
+  // const [pages, setPages] = useState();
+  // const pages = [1, 2, 3, 4, 5];
+  // const [pages, setPages] = useState();
+  const [cur, setCur] = useState<number>(1);
+  const check = pagination.pageCount - 3;
+  const pages =
+    pagination.page > 3
+      ? [
+          pagination.page - 2,
+          pagination.page - 1,
+          pagination.page,
+          pagination.page + 1,
+          pagination.page + 2,
+        ]
+      : check < pagination.pageCount
+      ? [
+          pagination.page - 2,
+          pagination.page - 1,
+          pagination.page,
+          pagination.pageCount - 1,
+          pagination.pageCount,
+        ]
+      : [1, 2, 3, 4, 5];
+  // const response = usePosts("1");
+  console.log("PAGE", pagination);
+  // console.log("RESP", response);
+
+  const handlePagination = (action: string) => {
+    if (action === "next") {
+      router.replace(`?limit=4&page=${pagination.page + 1}`);
+      console.log("CHECK", check);
+      // setCur(cur + 1);
+      // // setPages(pages.map((num) => num + 2));
+      // console.log("INCREASE", pages);
+      if (pagination.page > 3) {
+        const pages = []; //1 2 3 4 5 =>
+
+        // setPages([
+        //   pagination.page - 2,
+        //   pagination.page - 1,
+        //   pagination.page,
+        //   pagination.page + 1,
+        //   pagination.page + 2,
+        // ]);
+      } else {
+        console.log("first");
+      }
+    } else {
+      router.replace(`?limit=4&page=${pagination.page - 1}`);
+    }
+  };
   return (
     <>
       <Head>
@@ -118,7 +165,7 @@ export default function Home({ movies, pagination }: IMOVIE) {
                   </div>
                   <div className="px-6 pt-4">
                     <span className="inline-block bg-red-600 rounded-full px-3 py-1 font-semibold text-white text-lg mr-2 bottom-0">
-                      🍅:{/* 🍅: {movie.tomatoes.viewer.meter || "..."}% */}
+                      🍅: {movie.tomatoes?.viewer?.meter || "..."}%
                     </span>
                     <span className="inline-block bg-yellow-400 rounded-full px-3 py-1 font-semibold text-black text-lg mr-2 mb-2">
                       IMDb: {movie.imdb.rating}
@@ -130,10 +177,21 @@ export default function Home({ movies, pagination }: IMOVIE) {
           </div>
         </div>
         <div className="flex justify-center my-10">
-          <Pagination
+          {/* <Pagination
             total={pagination.total}
             pageCount={pagination.pageCount}
             page={pagination.page}
+          /> */}
+
+          <Pagination
+            pages={pages}
+            cur={pagination.page}
+            nextPage={() => {
+              handlePagination("next");
+            }}
+            prevPage={() => {
+              handlePagination("prev");
+            }}
           />
         </div>
       </div>
@@ -147,7 +205,8 @@ export async function getServerSideProps(ctx: any) {
     `http://localhost:8000/movies?limit=${limit}&page=${page}`
   );
   const data = await res.json();
-  console.log("QUERY", ctx);
+  // console.log("QUERY", ctx);
+  console.log("TOMATO", data.movies);
 
   return {
     props: { movies: data.movies, pagination: data.pagination },
