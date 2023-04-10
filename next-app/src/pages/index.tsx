@@ -2,16 +2,11 @@ import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
 import { Creepster } from "next/font/google";
-import styles from "@/styles/Home.module.css";
-import { count } from "console";
 import { useEffect, useState } from "react";
-// import Count from "@/components/Count/Count";
-// import Movie from "@/components/Movie";
 import About from "./about";
 import Pagination from "@/components/Pagination/Pagination";
 import { useRouter } from "next/router";
-
-// import Movie from "@/components/Movie";
+import NavigationBar from "@/components/NavigationBar/NavigationBar";
 
 const creepster = Creepster({ subsets: ["latin"], weight: ["400"] });
 
@@ -121,22 +116,13 @@ export default function Home({ movies, pagination }: IMOVIE) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <NavigationBar />
       <div className="flex flex-col justify-center h-full bg-black">
         <h1
           className={`text-red-600 text-9xl text-center py-20 ${creepster.className}`}
         >
           Movie Review
         </h1>
-        {/* <div>
-          <Link className="text-white" href="/about">
-            About
-          </Link>
-          <br></br>
-          <Link className="text-white" href="/movies/">
-            Movie
-          </Link>
-        </div> */}
-
         <div className="container mx-auto">
           <div className="grid grid-cols-4 gap-5 content-between">
             {movies.map((movie, idx) => (
